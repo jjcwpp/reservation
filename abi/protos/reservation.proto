@@ -69,13 +69,23 @@ message GetResponse {
     Reservation reservation=1;
 }
 
-message QueryRequest {
-    string resource_id =1;
-    string user_id =2;
+message ReservationQuery {
+    // resource id for the reservation query. If empty, query all resources
+    string resource_id = 1;
+    // user id for the reservation query. If empty, query all users
+    string user_id = 2;
+    // use status to filter result. If UNKNOWN, return all reservations
+    ReservationStatus status = 3;
+    // start time for the reservation query, if 0, use Infinity for start time
+    google.protobuf.Timestamp start = 4;
+    // end time for the reservation query, if 0, use Infinity for end time
+    google.protobuf.Timestamp end = 5;
+    // sort direction
+    bool desc = 6;
+}
 
-    ReservationStatus status=3;
-    google.protobuf.Timestamp start=4;
-    google.protobuf.Timestamp end=5;
+message QueryRequest {
+    ReservationQuery query = 1;
 }
 
 message ListenRequest {}
@@ -92,5 +102,5 @@ service ReservationService {
     rpc cancel(CancelRequest) returns (CancelResponse);
     rpc get(GetRequest) returns (GetResponse);
     rpc query(QueryRequest) returns (stream Reservation);
-    rpc listen(ListenRequest) returns (stream ListenResponse);
+    rpc listen(ListenRequest) returns (stream Reservation);
 }

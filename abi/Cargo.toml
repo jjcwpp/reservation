@@ -9,6 +9,10 @@ edition = "2021"
 prost = "0.11.2"
 prost-types = "0.11.2"
 tonic = { version = "0.8.2", features = ["gzip"] }
+chrono = { version = "0.4.22", features = ["serde"] }
+thiserror = "1.0.37"
+sqlx = { version = "0.6.2", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid"] }
+regex = "1.6.0"
 
 [build-dependencies]
 tonic-build = "0.8.2"
